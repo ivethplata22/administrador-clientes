@@ -1,7 +1,15 @@
-import { db } from "../funciones.js";
+import { db, validarCLiente } from "../funciones.js";
+import { formulario } from '../selectores.js';
 
 class App {
+    // Patron de Diseño Singleton
     constructor() {
+        if (App.instance) {
+            return App.instance; // Devuelve la instancia existente
+        }
+
+        App.instance = this; // Guarda la instancia en una propiedad estática
+
         this.initApp();
     }
 
@@ -16,7 +24,7 @@ class App {
     }
 
     eventListeners() {
-
+        if(formulario) formulario.addEventListener('submit', validarCLiente);
     }
 }
 
