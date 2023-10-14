@@ -1,7 +1,7 @@
 import DB from './classes/DB.js';
 import UI from './classes/UI.js';
 import Cliente from './classes/Cliente.js';
-import { inputNombre, inputEmail, inputTelefono, inputEmpresa } from './selectores.js';
+import { inputNombre, inputEmail, inputTelefono, inputEmpresa, formulario } from './selectores.js';
 
 // Instanciar
 export const db = new DB();
@@ -27,7 +27,7 @@ export function validarCLiente(e) {
         telefono === '' ||
         empresa === ''
     ) {
-        ui.imprimirAlerta('Todos los campos son obligatorios', 'error');
+        ui.imprimirAlerta('Todos los campos son obligatorios', 'error', formulario);
         return;
     }
 
@@ -47,4 +47,16 @@ export function cargarDatosCliente() {
 
     // Obtener Cliente por ID
     Cliente.obtenerCliente(idCliente);
+}
+
+export function eliminarCliente(e) {
+    // Filtrar eventos y solo escuchar la clase eliminar
+    if( e.target.classList.contains('eliminar') ) {
+        const idEliminar = Number(e.target.dataset.cliente);
+        
+        const confirmar = confirm('¿Deseas eliminar este cliente?');
+
+        // Eliminar Cliente
+        if(confirmar) Cliente.eliminarCliente(idEliminar, e.target);
+    }
 }

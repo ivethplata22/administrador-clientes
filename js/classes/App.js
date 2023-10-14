@@ -1,6 +1,6 @@
 import Cliente from '../classes/Cliente.js';
-import { db, validarCLiente, cargarDatosCliente } from "../funciones.js";
-import { formulario } from '../selectores.js';
+import { db, validarCLiente, cargarDatosCliente, eliminarCliente } from "../funciones.js";
+import { formulario, listadoClientes } from '../selectores.js';
 
 class App {
     // Patron de Diseño Singleton
@@ -40,6 +40,7 @@ class App {
 
     eventListeners() {
         if(formulario) formulario.addEventListener('submit', validarCLiente);
+        if(listadoClientes) listadoClientes.addEventListener('click', eliminarCliente);
     }
 }
 

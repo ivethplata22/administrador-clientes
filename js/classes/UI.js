@@ -1,9 +1,9 @@
-import { formulario, listadoClientes, inputNombre, inputEmail, inputTelefono, inputEmpresa } from '../selectores.js';
+import { listadoClientes, inputNombre, inputEmail, inputTelefono, inputEmpresa } from '../selectores.js';
 
 class UI {
     constructor() {}
 
-    imprimirAlerta(mensaje, tipo) {
+    imprimirAlerta(mensaje, tipo, elemento) {
 
         this.limpiarAlertas();
 
@@ -17,7 +17,7 @@ class UI {
             divMensaje.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
 
         // Agregar al DOM
-        formulario.appendChild(divMensaje);
+        elemento.appendChild(divMensaje);
 
         // Eliminar Alerta despues de 2 segundos
         setTimeout(() => {
@@ -50,7 +50,7 @@ class UI {
             </td>
             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5">
                 <a href="editar-cliente.html?id=${id}" class="text-teal-600 hover:text-teal-900 mr-5">Editar</a>
-                <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900">Eliminar</a>
+                <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900 eliminar">Eliminar</a>
             </td>
         </tr>`;
     }

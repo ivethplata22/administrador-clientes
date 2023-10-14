@@ -1,4 +1,5 @@
 import { db, ui } from '../funciones.js';
+import { formulario, listadoClientes } from '../selectores.js';
 
 class Cliente {
 
@@ -26,10 +27,10 @@ class Cliente {
         // Agregar Cliente
         objectStore.add(objCliente);
 
-        transaction.onerror = () => ui.imprimirAlerta('Hubo un error el agregar cliente', 'error');
+        transaction.onerror = () => ui.imprimirAlerta('Hubo un error el agregar cliente', 'error', formulario);
 
         transaction.oncomplete = () => {
-            ui.imprimirAlerta('Cliente agregado correctamente', 'exito');
+            ui.imprimirAlerta('Cliente agregado correctamente', 'exito', formulario);
 
             setTimeout(() => {
                 window.location.href = 'index.html';
@@ -53,10 +54,10 @@ class Cliente {
         // Actualizar Cliente
         objectStore.put(objCliente);
 
-        transaction.onerror = () => ui.imprimirAlerta('Hubo un error al actualizar cliente', 'error');
+        transaction.onerror = () => ui.imprimirAlerta('Hubo un error al actualizar cliente', 'error', formulario);
 
         transaction.oncomplete = () => {
-            ui.imprimirAlerta('Cliente actualizado correctamente', 'exito');
+            ui.imprimirAlerta('Cliente actualizado correctamente', 'exito', formulario);
 
             setTimeout(() => {
                 window.location.href = 'index.html';
@@ -83,6 +84,7 @@ class Cliente {
 
     static obtenerCliente(id) {
         const transaction = db.data.transaction(['crm'], 'readonly');
+
         const objectStore = transaction.objectStore('crm');
 
         // Recorrer Datos
@@ -98,6 +100,18 @@ class Cliente {
                 cursor.continue();
             }
         }
+    }
+
+    static eliminarCliente(id, elemento) {
+        const transaction = db.data.transaction(['crm'], 'readwrite');
+        
+        const objectStore = transaction.objectStore('crm');
+
+        objectStore.delete(id);
+
+        transaction.onerror = () => ui.imprimirAlerta('Hubo un error al elmiinar usuario', 'error', listadoClientes);
+
+        transaction.oncomplete = () => elemento.parentElement.parentElement.remove();
     }
 
 }
