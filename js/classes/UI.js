@@ -1,4 +1,4 @@
-import { formulario, listadoClientes } from '../selectores.js';
+import { formulario, listadoClientes, inputNombre, inputEmail, inputTelefono, inputEmpresa } from '../selectores.js';
 
 class UI {
     constructor() {}
@@ -53,6 +53,15 @@ class UI {
                 <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900">Eliminar</a>
             </td>
         </tr>`;
+    }
+
+    llenarFormulario(cliente) {
+        const { nombre, email, telefono, empresa } = cliente;
+
+        inputNombre.value = nombre;
+        inputEmail.value = email;
+        inputTelefono.value = telefono;
+        inputEmpresa.value = empresa;
     }
 }
 

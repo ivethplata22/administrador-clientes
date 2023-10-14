@@ -1,5 +1,5 @@
 import Cliente from '../classes/Cliente.js';
-import { db, validarCLiente } from "../funciones.js";
+import { db, validarCLiente, cargarDatosCliente } from "../funciones.js";
 import { formulario } from '../selectores.js';
 
 class App {
@@ -23,10 +23,17 @@ class App {
             db.crearDB();
 
             // Cargamos clientes
-            if( window.location.href.endsWith("index.html") ) {
+            if( window.location.href.includes("index.html") ) {
                 setTimeout(() => {
                     Cliente.imprimirClientes();
                 }, 100);
+            }
+
+            // Cargamos cliente
+            if( window.location.href.includes("editar-cliente.html") ) {
+                setTimeout(() => {
+                    cargarDatosCliente();
+                }, 100)
             }
         }
     }

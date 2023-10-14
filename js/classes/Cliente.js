@@ -2,8 +2,8 @@ import { db, ui } from '../funciones.js';
 
 class Cliente {
 
-    constructor({nombre, email, telefono, empresa}) {
-        this.id = Date.now();
+    constructor({nombre, email, telefono, empresa, id}) {
+        this.id = (!id) ? Date.now() : Number(id);
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;
@@ -37,10 +37,34 @@ class Cliente {
         }
     }
 
+    actualizarCliente() {
+        const objCliente = {
+            id: this.id,
+            nombre: this.nombre,
+            email: this.email,
+            telefono: this.telefono,
+            empresa: this.empresa
+        };
+
+        const transaction = db.data.transaction(['crm'], 'readwrite');
+        
+        const objectStore = transaction.objectStore('crm');
+
+        // Actualizar Cliente
+        objectStore.put(objCliente);
+
+        transaction.onerror = () => ui.imprimirAlerta('Hubo un error al actualizar cliente', 'error');
+
+        transaction.oncomplete = () => {
+            ui.imprimirAlerta('Cliente actualizado correctamente', 'exito');
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+    }
+
     static imprimirClientes() {
-
-        // Limpiar HTML
-
         // Obtener Datos BD
         const objectStore = db.data.transaction('crm').objectStore('crm');
 
@@ -54,6 +78,25 @@ class Cliente {
 
             // Seguir Iterando
             if(cursor) cursor.continue();
+        }
+    }
+
+    static obtenerCliente(id) {
+        const transaction = db.data.transaction(['crm'], 'readonly');
+        const objectStore = transaction.objectStore('crm');
+
+        // Recorrer Datos
+        objectStore.openCursor().onsuccess = function(e) {
+            const cursor = e.target.result;
+
+            if(cursor) {
+                // Obtener el cliente buscado
+                if(cursor.value.id === Number(id)) {
+                    ui.llenarFormulario(cursor.value);
+                }
+
+                cursor.continue();
+            }
         }
     }
 
