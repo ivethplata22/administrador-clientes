@@ -1,5 +1,6 @@
 import DB from './classes/DB.js';
 import UI from './classes/UI.js';
+import Cliente from './classes/Cliente.js';
 
 // Instanciar
 export const db = new DB();
@@ -25,5 +26,9 @@ export function validarCLiente(e) {
         return;
     }
 
-    console.log('Cliente valido');
+    // Clase Cliente
+    const cliente = new Cliente({nombre, email, telefono, empresa});
+
+    // Agregar Cliente
+    cliente.crearNuevoCliente();
 }

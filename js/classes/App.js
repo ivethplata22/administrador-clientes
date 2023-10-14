@@ -1,3 +1,4 @@
+import Cliente from '../classes/Cliente.js';
 import { db, validarCLiente } from "../funciones.js";
 import { formulario } from '../selectores.js';
 
@@ -20,6 +21,13 @@ class App {
 
             // Creamos Base de Datos
             db.crearDB();
+
+            // Cargamos clientes
+            if( window.location.href.endsWith("index.html") ) {
+                setTimeout(() => {
+                    Cliente.imprimirClientes();
+                }, 100);
+            }
         }
     }
 
